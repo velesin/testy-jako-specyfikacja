@@ -1,0 +1,1099 @@
+ó<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="TDD,BDD,testy,specyfikacja" />
+    <meta name="description" content="Testy jednostkowe jako żywa zpecyfikacja kodu." />
+    <title>Żywa specyfikacja</title>
+    <style type="text/css">
+        @font-face {
+          font-family: 'Droid Serif';
+          font-style: normal;
+          font-weight: 400;
+          src: local('Droid Serif'), local('DroidSerif'), url(assets/0AKsP294HTD-nvJgucYTaIbN6UDyHWBl620a-IRfuBk.woff) format('woff');
+        }
+
+        @font-face {
+          font-family: 'Yanone Kaffeesatz';
+          font-style: normal;
+          font-weight: 400;
+          src: local('Yanone Kaffeesatz Regular'), local('YanoneKaffeesatz-Regular'), url(assets/YDAoLskQQ5MOAgvHUQCcLRTHiN2BPBirwIkMLKUspj4.woff) format('woff');
+        }
+
+        @font-face {
+          font-family: 'Ubuntu Mono';
+          font-style: normal;
+          font-weight: 400;
+          src: local('Ubuntu Mono'), local('UbuntuMono-Regular'), url(assets/ViZhet7Ak-LRXZMXzuAfkYbN6UDyHWBl620a-IRfuBk.woff) format('woff');
+        }
+        @font-face {
+          font-family: 'Ubuntu Mono';
+          font-style: normal;
+          font-weight: 700;
+          src: local('Ubuntu Mono Bold'), local('UbuntuMono-Bold'), url(assets/ceqTZGKHipo8pJj4molytjqR_3kx9_hJXbbyU8S6IN0.woff) format('woff');
+        }
+        @font-face {
+          font-family: 'Ubuntu Mono';
+          font-style: italic;
+          font-weight: 400;
+          src: local('Ubuntu Mono Italic'), local('UbuntuMono-Italic'), url(assets/KAKuHXAHZOeECOWAHsRKA9kZXW4sYc4BjuAIFc1SXII.woff) format('woff');
+        }
+
+        body {
+            font-family: 'Droid Serif';
+        }
+        h1, h2, h3 {
+            font-family: 'Yanone Kaffeesatz';
+            font-weight: 400;
+            margin-bottom: 0;
+        }
+        .remark-slide-content h1 { font-size: 3em; }
+        .remark-slide-content h2 { font-size: 2em; }
+        .remark-slide-content h3 { font-size: 1.6em; }
+        .footnote {
+            position: absolute;
+            bottom: 3em;
+        }
+        li p { line-height: 1.25em; }
+        .red { color: #fa0000; }
+        .large { font-size: 2em; }
+        a, a > code {
+            color: rgb(249, 38, 114);
+            text-decoration: none;
+        }
+        code {
+            -moz-border-radius: 5px;
+            -web-border-radius: 5px;
+            background: #e7e8e2;
+            border-radius: 5px;
+        }
+        .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+        .remark-code-line-highlighted     { background-color: #373832; }
+        .pull-left {
+            float: left;
+            width: 47%;
+        }
+        .pull-right {
+            float: right;
+            width: 47%;
+        }
+        .pull-right ~ p {
+            clear: both;
+        }
+        #slideshow .slide .content code {
+            font-size: 0.8em;
+        }
+        #slideshow .slide .content pre code {
+            font-size: 0.9em;
+            padding: 15px;
+        }
+        .inverse {
+            background: #272822;
+            color: #777872;
+            text-shadow: 0 0 20px #333;
+        }
+        .inverse h1, .inverse h2 {
+            color: #f3f3f3;
+            line-height: 0.8em;
+        }
+
+        /* Slide-specific styling */
+        #slide-inverse .footnote {
+            bottom: 12px;
+            left: 20px;
+        }
+        #slide-how .slides {
+            font-size: 0.9em;
+            position: absolute;
+            top:  151px;
+            right: 140px;
+        }
+        #slide-how .slides h3 {
+            margin-top: 0.2em;
+        }
+        #slide-how .slides .first, #slide-how .slides .second {
+            padding: 1px 20px;
+            height: 90px;
+            width: 120px;
+            -moz-box-shadow: 0 0 10px #777;
+            -webkit-box-shadow: 0 0 10px #777;
+            box-shadow: 0 0 10px #777;
+        }
+        #slide-how .slides .first {
+            background: #fff;
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            z-index: 1;
+        }
+        #slide-how .slides .second {
+            position: relative;
+            background: #fff;
+            z-index: 0;
+        }
+
+        /* Two-column layout */
+        .left-column {
+            color: #777;
+            width: 20%;
+            height: 92%;
+            float: left;
+        }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+            color: #000;
+        }
+        .right-column {
+            width: 75%;
+            float: right;
+            padding-top: 1em;
+        }
+        .right-column.next {
+            margin-top: -3em;
+        }
+    </style>
+</head>
+<body>
+<textarea id="source">
+layout: true
+class: center, middle
+---
+##Testy jednostkowe jako żywa specyfikacja kodu
+
+###Wojciech Zawistowski
+---
+.left-column[
+]
+.right-column.left[
+## Co dają testy jednostkowe?
+]
+--
+.right-column.left[
+- poprawność nowego kodu
+- regresja modyfikowanego kodu
+]
+--
+.right-column.left.next.red[
+- design "w locie" (emergent design)
+- natychmiastowa lokalizacja błędów
+- wykonywalna dokumentacja
+- weryfikacja specyfikacji
+]
+---
+.left-column[
+]
+.right-column.left[
+##Kluczowe cechy testów
+
+- łatwość modyfikacji
+- łatwość debugowania
+]
+--
+.right-column.left.next.red[
+- czytelność
+]
+---
+.left-column[
+]
+.right-column.left[
+##Typowy test jednostkowy
+
+```
+public function testSpam() {
+    $user = new User([
+        'login' => 'jankowalski',
+        'email' => 'jan.kowalski@gmail.com'
+    ]);
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+    $post = new Post([
+        'author' => $user,
+        'title' => 'Hello world',
+        'text' => 'Hi everybody, this is my first post!',
+    ]);
+    $post->publish();
+    for ($i = 0; $i < 5; $i++) {
+        $post->reportAsSpam();
+    }
+    $this->assertFalse($user->canPost());
+    $this->assertFalse($user->canComment());
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##Typowy test jednostkowy
+
+```
+public function testSpam() {
+*    $user = new User([
+*        'login' => 'jankowalski',
+*        'email' => 'jan.kowalski@gmail.com'
+*    ]);
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+    $post = new Post([
+        'author' => $user,
+        'title' => 'Hello world',
+        'text' => 'Hi everybody, this is my first post!',
+    ]);
+    $post->publish();
+    for ($i = 0; $i < 5; $i++) {
+        $post->reportAsSpam();
+    }
+    $this->assertFalse($user->canPost());
+    $this->assertFalse($user->canComment());
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##Typowy test jednostkowy
+
+```
+public function testSpam() {
+    $user = new User([
+        'login' => 'jankowalski',
+        'email' => 'jan.kowalski@gmail.com'
+    ]);
+*    $user->setEmailConfirmed(true);
+*    $user->setStatus(User::STATUS_ACTIVE);
+    $post = new Post([
+        'author' => $user,
+        'title' => 'Hello world',
+        'text' => 'Hi everybody, this is my first post!',
+    ]);
+    $post->publish();
+    for ($i = 0; $i < 5; $i++) {
+        $post->reportAsSpam();
+    }
+    $this->assertFalse($user->canPost());
+    $this->assertFalse($user->canComment());
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##Typowy test jednostkowy
+
+```
+public function testSpam() {
+    $user = new User([
+        'login' => 'jankowalski',
+        'email' => 'jan.kowalski@gmail.com'
+    ]);
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+*    $post = new Post([
+*        'author' => $user,
+*        'title' => 'Hello world',
+*        'text' => 'Hi everybody, this is my first post!',
+*    ]);
+    $post->publish();
+    for ($i = 0; $i < 5; $i++) {
+        $post->reportAsSpam();
+    }
+    $this->assertFalse($user->canPost());
+    $this->assertFalse($user->canComment());
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##Typowy test jednostkowy
+
+```
+public function testSpam() {
+    $user = new User([
+        'login' => 'jankowalski',
+        'email' => 'jan.kowalski@gmail.com'
+    ]);
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+    $post = new Post([
+        'author' => $user,
+        'title' => 'Hello world',
+        'text' => 'Hi everybody, this is my first post!',
+    ]);
+*    $post->publish();
+*    for ($i = 0; $i < 5; $i++) {
+*        $post->reportAsSpam();
+*    }
+    $this->assertFalse($user->canPost());
+    $this->assertFalse($user->canComment());
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##Typowy test jednostkowy
+
+```
+public function testSpam() {
+    $user = new User([
+        'login' => 'jankowalski',
+        'email' => 'jan.kowalski@gmail.com'
+    ]);
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+    $post = new Post([
+        'author' => $user,
+        'title' => 'Hello world',
+        'text' => 'Hi everybody, this is my first post!',
+    ]);
+    $post->publish();
+    for ($i = 0; $i < 5; $i++) {
+        $post->reportAsSpam();
+    }
+*    $this->assertFalse($user->canPost());
+*    $this->assertFalse($user->canComment());
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 1: Nazwy metod testowych
+
+- szczegółowe
+- precyzyjne
+- kompletne
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 1: Nazwy metod testowych
+
+```
+public function testSpam()
+```
+]
+--
+.right-column.left[
+```
+public function testThatActiveUserIsDeactivated
+                WhenHisPostIsReportedAsSpamAtLeast5Times()
+```
+]
+--
+.right-column.left[
+```
+public function testThatUserIsBannedWhenHePostsSpam()
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 1: Nazwy metod testowych
+
+```
+* public function testSpam() {
+    $user = new User([
+        'login' => 'jankowalski',
+        'email' => 'jan.kowalski@gmail.com'
+    ]);
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+    $post = new Post([
+        'author' => $user,
+        'title' => 'Hello world',
+        'text' => 'Hi everybody, this is my first post!',
+    ]);
+    $post->publish();
+    for ($i = 0; $i < 5; $i++) {
+        $post->reportAsSpam();
+    }
+    $this->assertFalse($user->canPost());
+    $this->assertFalse($user->canComment());
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 1: Nazwy metod testowych
+
+```
+* public function testThatUserIsBannedWhenHePostsSpam() {
+    $user = new User([
+        'login' => 'jankowalski',
+        'email' => 'jan.kowalski@gmail.com'
+    ]);
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+    $post = new Post([
+        'author' => $user,
+        'title' => 'Hello world',
+        'text' => 'Hi everybody, this is my first post!',
+    ]);
+    $post->publish();
+    for ($i = 0; $i < 5; $i++) {
+        $post->reportAsSpam();
+    }
+    $this->assertFalse($user->canPost());
+    $this->assertFalse($user->canComment());
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 2: Fazy testu
+
+- stan początkowy ("Given")
+- akcja ("When")
+- oczekiwania ("Then")
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 2: Fazy testu
+
+```
+public function testThatUserIsBannedWhenHePostsSpam() {
+    $user = new User([
+        'login' => 'jankowalski',
+        'email' => 'jan.kowalski@gmail.com'
+    ]);
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+    $post = new Post([
+        'author' => $user,
+        'title' => 'Hello world',
+        'text' => 'Hi everybody, this is my first post!',
+    ]);
+    $post->publish();
+    for ($i = 0; $i < 5; $i++) {
+        $post->reportAsSpam();
+    }
+    $this->assertFalse($user->canPost());
+    $this->assertFalse($user->canComment());
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 2: Fazy testu
+
+```
+public function testThatUserIsBannedWhenHePostsSpam() {
+    $user = new User([
+        'login' => 'jankowalski',
+        'email' => 'jan.kowalski@gmail.com'
+    ]);
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+*
+    $post = new Post([
+        'author' => $user,
+        'title' => 'Hello world',
+        'text' => 'Hi everybody, this is my first post!',
+    ]);
+    $post->publish();
+    for ($i = 0; $i < 5; $i++) {
+        $post->reportAsSpam();
+    }
+*
+    $this->assertFalse($user->canPost());
+    $this->assertFalse($user->canComment());
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 3: Wymowne fikstury
+
+- nazwy stałych
+- nazwy zmiennych
+- .red[zawartość]
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 3: Wymowne fikstury
+
+```
+$user = User::logIn('qweert', 'abcdefgh');
+
+$this->assertNotLoggedIn($user);
+```
+]
+--
+.right-column.left[
+```
+$validLogin = 'qweert';
+$invalidPassword = 'abcdefgh';
+
+$user = User::logIn($validLogin, $invalidPassword);
+
+$this->assertNotLoggedIn($user);
+```
+]
+--
+.right-column.left[
+```
+$validLogin = 'valid_username';
+$invalidPassword = 'pw_without_at_least_one_digit';
+
+$unauthorizedUser = User::logIn($validLogin, $invalidPassword);
+
+$this->assertNotLoggedIn($unauthorizedUser);
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 3: Wymowne fikstury
+
+```
+public function testThatUserIsBannedWhenHePostsSpam() {
+    $user = new User([
+*        'login' => 'jankowalski',
+*        'email' => 'jan.kowalski@gmail.com'
+    ]);
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+
+    $post = new Post([
+        'author' => $user,
+*        'title' => 'Hello world',
+*        'text' => 'Hi everybody, this is my first post!',
+    ]);
+    $post->publish();
+    for ($i = 0; $i < 5; $i++) {
+        $post->reportAsSpam();
+    }
+
+    $this->assertFalse($user->canPost());
+    $this->assertFalse($user->canComment());
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 3: Wymowne fikstury
+
+```
+public function testThatUserIsBannedWhenHePostsSpam() {
+    $user = new User([
+*        'login' => 'any_login',
+*        'email' => 'any.email@anydomain.com'
+    ]);
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+
+    $post = new Post([
+        'author' => $user,
+*        'title' => 'any title',
+*        'text' => 'any text',
+    ]);
+    $post->publish();
+    for ($i = 0; $i < 5; $i++) {
+        $post->reportAsSpam();
+    }
+
+    $this->assertFalse($user->canPost());
+    $this->assertFalse($user->canComment());
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 3: Wymowne fikstury
+
+```
+public function testThatUserIsBannedWhenHePostsSpam() {
+    $user = new User([
+        'login' => 'any_login',
+        'email' => 'any.email@anydomain.com'
+    ]);
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+
+    $post = new Post([
+        'author' => $user,
+        'title' => 'any title',
+        'text' => 'any text',
+    ]);
+    $post->publish();
+*    for ($i = 0; $i < 5; $i++) {
+        $post->reportAsSpam();
+    }
+
+    $this->assertFalse($user->canPost());
+    $this->assertFalse($user->canComment());
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 3: Wymowne fikstury
+
+```
+public function testThatUserIsBannedWhenHePostsSpam() {
+    $user = new User([
+        'login' => 'any_login',
+        'email' => 'any.email@anydomain.com'
+    ]);
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+
+    $post = new Post([
+        'author' => $user,
+        'title' => 'any title',
+        'text' => 'any text',
+    ]);
+    $post->publish();
+*    $minSpamReportsThreshold = 5;
+*    for ($i = 0; $i < $minSpamReportsThreshold; $i++) {
+        $post->reportAsSpam();
+    }
+
+    $this->assertFalse($user->canPost());
+    $this->assertFalse($user->canComment());
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 4: Wymowne asercje
+
+- precyzyjne komunikaty
+- dodatkowe informacje
+- .red[szybka lokalizacja błędu]
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 4: Wymowne asercje
+
+```
+$this->assertFalse($user->canPost());
+```
+
+```
+Failed asserting that true is false.
+```
+]
+--
+.right-column.left[
+```
+$message = 'User can post (but should not).';
+$this->assertFalse($user->canPost(), $message);
+```
+
+```
+User can post (but should not).
+```
+]
+--
+.right-column.left[
+```
+$userInfo = $user->group().', '.$user->status();
+$message = 'User ('.$userInfo.') can post (but should not).';
+$this->assertFalse($user->canPost(), $message);
+```
+
+```
+User (admin, active) can post (but should not).
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 4: Wymowne asercje
+
+```
+public function testThatUserIsBannedWhenHePostsSpam() {
+    $user = new User([
+        'login' => 'any_login',
+        'email' => 'any.email@anydomain.com'
+    ]);
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+
+    $post = new Post([
+        'author' => $user,
+        'title' => 'any title',
+        'text' => 'any text',
+    ]);
+    $post->publish();
+    $minSpamReportsThreshold = 5;
+    for ($i = 0; $i < $minSpamReportsThreshold; $i++) {
+        $post->reportAsSpam();
+    }
+
+*    $this->assertFalse($user->canPost());
+*    $this->assertFalse($user->canComment());
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 4: Wymowne asercje
+
+```
+public function testThatUserIsBannedWhenHePostsSpam() {
+    $user = new User([
+        'login' => 'any_login',
+        'email' => 'any.email@anydomain.com'
+    ]);
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+
+    $post = new Post([
+        'author' => $user,
+        'title' => 'any title',
+        'text' => 'any text',
+    ]);
+    $post->publish();
+    $minSpamReportsThreshold = 5;
+    for ($i = 0; $i < $minSpamReportsThreshold; $i++) {
+        $post->reportAsSpam();
+    }
+
+*    $userIsBanned = !$user->canPost() &&
+*                    !$user->canComment());
+*    $userInfo = 'can post: '.$user->canPost().;
+*                ', can comment: '.$user->canComment();
+*    $message = 'User is not banned ('.$userInfo.').';
+*    $this->assertTrue($userBanned, $message);
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 5: Fabryki obiektów
+
+- ukrycie nieistotnych szczegółów<br>.red[konstrukcji obiektów]
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 5: Fabryki obiektów
+
+```
+*private function createActiveUser() {
+    $user = new User([
+        'login' => 'any_login',
+        'email' => 'any.email@anydomain.com'
+    ]);
+
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+
+    return $user;
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 5: Fabryki obiektów
+
+```
+public function testThatUserIsBannedWhenHePostsSpam() {
+*    $user = new User([
+*        'login' => 'any_login',
+*        'email' => 'any.email@anydomain.com'
+*    ]);
+*    $user->setEmailConfirmed(true);
+*    $user->setStatus(User::STATUS_ACTIVE);
+
+    $post = new Post([
+        'author' => $user,
+        'title' => 'any title',
+        'text' => 'any text',
+    ]);
+    $post->publish();
+    $minSpamReportsThreshold = 5;
+    for ($i = 0; $i < $minSpamReportsThreshold; $i++) {
+        $post->reportAsSpam();
+    }
+
+    $userIsBanned = !$user->canPost() &&
+                    !$user->canComment());
+    $userInfo = 'can post: '.$user->canPost().;
+                ', can comment: '.$user->canComment();
+    $message = 'User is not banned ('.$userInfo.').';
+    $this->assertTrue($userBanned, $message);
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 5: Fabryki obiektów
+
+```
+public function testThatUserIsBannedWhenHePostsSpam() {
+*    $user = $this->createActiveUser();
+
+    $post = new Post([
+        'author' => $user,
+        'title' => 'any title',
+        'text' => 'any text',
+    ]);
+    $post->publish();
+    $minSpamReportsThreshold = 5;
+    for ($i = 0; $i < $minSpamReportsThreshold; $i++) {
+        $post->reportAsSpam();
+    }
+
+    $userIsBanned = !$user->canPost() &&
+                    !$user->canComment());
+    $userInfo = 'can post: '.$user->canPost().;
+                ', can comment: '.$user->canComment();
+    $message = 'User is not banned ('.$userInfo.').';
+    $this->assertTrue($userBanned, $message);
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 6: Metody pomocnicze
+
+- ukrycie nieistotnych szczegółów<br>.red[algorytmicznych]
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 6: Metody pomocnicze
+
+```
+*private function publishSpam($user) {
+    $post = new Post([
+        'author' => $user,
+        'title' => 'any title',
+        'text' => 'any text',
+    ]);
+
+    $post->publish();
+    $minSpamReportsThreshold = 5;
+    for ($i = 0; $i < $minSpamReportsThreshold; $i++) {
+        $post->reportAsSpam();
+    }
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 6: Metody pomocnicze
+
+```
+public function testThatUserIsBannedWhenHePostsSpam() {
+    $user = $this->createActiveUser();
+
+*    $post = new Post([
+*        'author' => $user,
+*        'title' => 'any title',
+*        'text' => 'any text',
+*    ]);
+*    $post->publish();
+*    $minSpamReportsThreshold = 5;
+*    for ($i = 0; $i < $minSpamReportsThreshold; $i++) {
+*        $post->reportAsSpam();
+*    }
+
+    $userIsBanned = !$user->canPost() &&
+                    !$user->canComment());
+    $userInfo = 'can post: '.$user->canPost().;
+                ', can comment: '.$user->canComment();
+    $message = 'User is not banned ('.$userInfo.').';
+    $this->assertTrue($userBanned, $message);
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 6: Metody pomocnicze
+
+```
+public function testThatUserIsBannedWhenHePostsSpam() {
+    $user = $this->createActiveUser();
+
+*    $this->publishSpam($user);
+
+    $userIsBanned = !$user->canPost() &&
+                    !$user->canComment());
+    $userInfo = 'can post: '.$user->canPost().;
+                ', can comment: '.$user->canComment();
+    $message = 'User is not banned ('.$userInfo.').';
+    $this->assertTrue($userBanned, $message);
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 7: Własne asercje
+
+- bardziej zrozumiały test
+- możliwość zgrupowania asercji
+- czytelniejsze komunikaty błędów
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 7: Własne asercje
+
+```
+*private function assertBanned($user) {
+    $userIsBanned = !$user->canPost() &&
+                    !$user->canComment());
+
+    $userInfo = 'can post: '.$user->canPost().;
+                ', can comment: '.$user->canComment();
+    $message = 'User is not banned ('.$userInfo.').';
+
+    $this->assertTrue($userBanned, $message);
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 7: Własne asercje
+
+```
+public function testThatUserIsBannedWhenHePostsSpam() {
+    $user = $this->createActiveUser();
+
+    $this->publishSpam($user);
+
+*    $userIsBanned = !$user->canPost() &&
+*                    !$user->canComment());
+*    $userInfo = 'can post: '.$user->canPost().;
+*                ', can comment: '.$user->canComment();
+*    $message = 'User is not banned ('.$userInfo.').';
+*    $this->assertTrue($userBanned, $message);
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##KROK 7: Własne asercje
+
+```
+public function testThatUserIsBannedWhenHePostsSpam() {
+    $user = $this->createActiveUser();
+
+    $this->publishSpam($user);
+
+*    $this->assertBanned($user);
+}
+```
+]
+---
+.left-column.left[
+##Porównanie
+]
+.right-column.left[
+```
+public function testThatUserIsBannedWhenHePostsSpam() {
+    $user = $this->createActiveUser();
+
+    $this->publishSpam($user);
+
+    $this->assertBanned($user);
+}
+```
+```
+public function testSpam() {
+    $user = new User([
+        'login' => 'jankowalski',
+        'email' => 'jan.kowalski@gmail.com'
+    ]);
+    $user->setEmailConfirmed(true);
+    $user->setStatus(User::STATUS_ACTIVE);
+    $post = new Post([
+        'author' => $user,
+        'title' => 'Hello world',
+        'text' => 'Hi everybody, this is my first post!',
+    ]);
+    $post->publish();
+    for ($i = 0; $i < 5; $i++) {
+        $post->reportAsSpam();
+    }
+    $this->assertFalse($user->canPost());
+    $this->assertFalse($user->canComment());
+}
+```
+]
+---
+.left-column[
+]
+.right-column.left[
+##Dodatkowe zalety
+
+- izolacja
+- rozdzielenie poziomów abstrakcji
+- "reusability"
+- mniej kruche testy
+]
+---
+```
+$this->assertFinished($presentation);
+```
+
+## &nbsp;
+</textarea>
+<script src="assets/remark.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var slideshow = remark.create({
+        highlightStyle: 'sunburst',
+        highlightLanguage: 'php'
+    });
+</script>
+</body>
+</html>
