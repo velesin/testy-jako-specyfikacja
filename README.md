@@ -1,0 +1,2 @@
+testy-jako-specyfikacja
+=======================
