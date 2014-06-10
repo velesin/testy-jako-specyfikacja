@@ -7,20 +7,6 @@
     <title>Żywa specyfikacja</title>
     <style type="text/css">
         @font-face {
-          font-family: 'Droid Serif';
-          font-style: normal;
-          font-weight: 400;
-          src: local('Droid Serif'), local('DroidSerif'), url(assets/0AKsP294HTD-nvJgucYTaIbN6UDyHWBl620a-IRfuBk.woff) format('woff');
-        }
-
-        @font-face {
-          font-family: 'Yanone Kaffeesatz';
-          font-style: normal;
-          font-weight: 400;
-          src: local('Yanone Kaffeesatz Regular'), local('YanoneKaffeesatz-Regular'), url(assets/YDAoLskQQ5MOAgvHUQCcLRTHiN2BPBirwIkMLKUspj4.woff) format('woff');
-        }
-
-        @font-face {
           font-family: 'Ubuntu Mono';
           font-style: normal;
           font-weight: 400;
@@ -39,23 +25,44 @@
           src: local('Ubuntu Mono Italic'), local('UbuntuMono-Italic'), url(assets/KAKuHXAHZOeECOWAHsRKA9kZXW4sYc4BjuAIFc1SXII.woff) format('woff');
         }
 
+        @font-face {
+            font-family: 'Lato Regular';
+            src: url(assets/Lato-Regular.ttf);
+        }
+
+        @font-face {
+            font-family: 'Ubuntu Medium';
+            src: url(assets/Ubuntu-M.ttf);
+        }
+
+        @font-face {
+            font-family: 'Ubuntu Regular';
+            src: url(assets/Ubuntu-R.ttf);
+        }
+
         body {
-            font-family: 'Droid Serif';
+            font-family: 'Ubuntu Regular';
+            color: #515457;
         }
         h1, h2, h3 {
-            font-family: 'Yanone Kaffeesatz';
+            font-family: 'Ubuntu Medium';
             font-weight: 400;
             margin-bottom: 0;
+            letter-spacing: -0.5px;
+            color: #0f4e8c;
         }
         .remark-slide-content h1 { font-size: 3em; }
-        .remark-slide-content h2 { font-size: 2em; }
-        .remark-slide-content h3 { font-size: 1.6em; }
+        .remark-slide-content h2 { font-size: 1.5em; }
+        .remark-slide-content h3 {
+            font-size: 0.8em;
+            letter-spacing: 0.5px;
+        }
         .footnote {
             position: absolute;
             bottom: 3em;
         }
         li p { line-height: 1.25em; }
-        .red { color: #fa0000; }
+        .red { color: #da4c4b; }
         .large { font-size: 2em; }
         a, a > code {
             color: rgb(249, 38, 114);
@@ -150,6 +157,21 @@
         .right-column.next {
             margin-top: -3em;
         }
+
+
+        .remark-slide-number {
+            font-family: 'Lato Regular';
+            font-size: 0.8em;
+            color: #b6cde3;
+        }
+        #wojciech-zawistowski {
+            font-family: 'Lato Regular';
+            color: #da4c4b;
+        }
+        .remark-slide-content {
+            background: #f1fdff;
+            background: radial-gradient(ellipse at center, #fff 0%, #f1fdff 70%);
+        }
     </style>
 </head>
 <body>
@@ -159,15 +181,13 @@ class: center, middle
 ---
 ##Testy jednostkowe jako żywa specyfikacja kodu
 
-###Wojciech Zawistowski
+###WOJCIECH ZAWISTOWSKI
 ---
 .left-column[
 ]
 .right-column.left[
 ## Co dają testy jednostkowe?
-]
---
-.right-column.left[
+
 - poprawność nowego kodu
 - regresja modyfikowanego kodu
 ]
@@ -1036,7 +1056,6 @@ public function testThatUserIsBannedWhenHePostsSpam() {
 ]
 ---
 .left-column.left[
-##Porównanie
 ]
 .right-column.left[
 ```
@@ -1087,6 +1106,40 @@ $this->assertFinished($presentation);
 ```
 
 ## &nbsp;
+---
+.left-column[
+]
+.right-column.left[
+##Grupa eSky
+
+- Internetowe Biuro Turystyczne.<br>Działamy od 2005 r.
+- Polska, Bułgaria, Rumunia, Brazylia
+- Lider sprzedaży online<br>na wymienionych rynkach
+- Firma polska
+]
+---
+.left-column[
+]
+.right-column.left[
+##it.esky.pl
+
+- Własne rozwiązania technologiczne<br>rozwijane od ponad 8 lat
+- Dział IT złożony z ponad 70 specjalistów
+- Własne rozwiązania infrastrukturalne<br>i serwerowe
+- Pracujemy w oparciu o metodyki Agile<br>(Scrum i Kanban)
+- Dominujące technologie to PHP i .NET
+]
+---
+.left-column[
+]
+.right-column.left[
+##Poszukujemy
+
+- Senior PHP Developera
+- Senior FE Developera
+- Testera aplikacji
+- Projektanta UX
+]
 </textarea>
 <script src="assets/remark.js" type="text/javascript"></script>
 <script type="text/javascript">
