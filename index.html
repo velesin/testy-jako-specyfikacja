@@ -58,8 +58,13 @@
             letter-spacing: 0.5px;
         }
         .footnote {
-            position: absolute;
-            bottom: 3em;
+            color: #0f4e8c;
+            font-family: 'Lato Regular';
+            font-weight: bold;
+            font-size: 0.8em;
+            position: relative;
+            top: 14em;
+            text-align: center;
         }
         li p { line-height: 1.25em; }
         .red { color: #da4c4b; }
@@ -164,13 +169,24 @@
             font-size: 0.8em;
             color: #b6cde3;
         }
-        #wojciech-zawistowski {
+        h3 {
             font-family: 'Lato Regular';
             color: #da4c4b;
         }
         .remark-slide-content {
             background: #f1fdff;
-            background: radial-gradient(ellipse at center, #fff 0%, #f1fdff 70%);
+            background: url(assets/itesky_small.png), radial-gradient(ellipse at center, #fff 0%, #f1fdff 70%);
+            background-repeat: no-repeat;
+            background-position: 3% 97%;
+            background-size: 10%, 100%;
+        }
+        .remark-slide-container:first-of-type .remark-slide-content,
+        .remark-slide-container:last-of-type .remark-slide-content{
+            background: #f1fdff;
+            background: url(assets/itesky_medium.png), radial-gradient(ellipse at center, #fff 0%, #f1fdff 70%);
+            background-repeat: no-repeat;
+            background-position: center 25%;
+            background-size: 20%, 100%;
         }
     </style>
 </head>
@@ -182,6 +198,10 @@ class: center, middle
 ##Testy jednostkowe jako żywa specyfikacja kodu
 
 ###WOJCIECH ZAWISTOWSKI
+
+.footnote[
+www..red[e]SKY.pl
+]
 ---
 .left-column[
 ]
@@ -1110,7 +1130,7 @@ $this->assertFinished($presentation);
 .left-column[
 ]
 .right-column.left[
-##Grupa eSky
+##Grupa eSKY
 
 - Internetowe Biuro Turystyczne.<br>Działamy od 2005 r.
 - Polska, Bułgaria, Rumunia, Brazylia
@@ -1121,7 +1141,7 @@ $this->assertFinished($presentation);
 .left-column[
 ]
 .right-column.left[
-##it.esky.pl
+##IT.eSKY.pl
 
 - Własne rozwiązania technologiczne<br>rozwijane od ponad 8 lat
 - Dział IT złożony z ponad 70 specjalistów
@@ -1140,6 +1160,10 @@ $this->assertFinished($presentation);
 - Testera aplikacji
 - Projektanta UX
 ]
+---
+###DZIĘKUJEMY ZA UWAGĘ
+
+##Zapraszamy kreatywnych ludzi do współpracy<br>www.IT.eSKY.pl
 </textarea>
 <script src="assets/remark.js" type="text/javascript"></script>
 <script type="text/javascript">
